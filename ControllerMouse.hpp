@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _CONTROLLER_MOUSE_HPP_
+#define _CONTROLLER_MOUSE_HPP_
 
 #include "IController.hpp"
 #include "SFML/Window.hpp"
@@ -71,3 +72,5 @@ namespace DSI
 			}
 		};
 }
+
+#endif // _CONTROLLER_MOUSE_HPP_
