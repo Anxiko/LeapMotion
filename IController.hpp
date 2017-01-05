@@ -5,7 +5,7 @@ namespace DSI
 	//Interfaz de controlador
 	class IController
 	{
-		/* 
+		/*
 			Attributes
 		*/
 
@@ -28,6 +28,8 @@ namespace DSI
 			IController(const int ix, const int iy)
 			:x(ix),y(iy)
 			{}
+
+        public:
 
 			//Virtual destructor, inheritance
 			virtual ~IController(){}

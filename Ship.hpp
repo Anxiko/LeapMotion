@@ -4,6 +4,9 @@
 #include "SFML/Graphics.hpp"
 #include "FDX_Geo/FDX_Geo.hpp"
 
+#include "IController.hpp"
+#include "World.hpp"
+
 using namespace fdx;
 
 namespace DSI
@@ -20,14 +23,22 @@ namespace DSI
             //Position and size
             arrow::Rct r;
 
-            //Speeds
-            arrow::Vct up,dn,lf,rt;//Up, down, left and right speeds
-
         /*Looks*/
         private:
 
             //Sprite
             sf::Sprite sp;
+
+        /*Enviroment*/
+        private:
+
+            World &world;//World to interact with
+
+        /*Controls*/
+        private:
+
+            //Pointer to the controller of this ship, owned by this (free at end)
+            IController *ptr_controller;
 
         /* Constructors, copy control */
 
@@ -35,7 +46,10 @@ namespace DSI
         public:
 
             //Complete constructor
-            Ship(arrow::Vct &icenter, arrow::Vct &iup, arrow::Vct &idn, arrow::Vct &ilf, arrow::Vct &irt, sf::Texture &itexture);
+            Ship(const arrow::Vct &icenter, sf::Texture &itexture, World &iworld, IController *iptr_controller=nullptr);
+
+            //Destructor
+            ~Ship();
 
         /* Methods */
 
@@ -49,6 +63,12 @@ namespace DSI
 
             //Create the sprite
             void create_sprite(const sf::Texture &texture);
+
+        /*Update*/
+        public:
+
+            //Update the ship's status (process info from controller)
+            void update();
     };
 }
 
