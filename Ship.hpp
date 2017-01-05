@@ -15,6 +15,14 @@ namespace DSI
     //Ship, player or enemy
     class Ship : public sf::Drawable
     {
+        /* Config */
+
+        /*Orientation*/
+        public:
+
+            //Ship going up or down (sprite)
+            static constexpr bool ORIENTATION_UP=true,ORIENTATION_DOWN=false;
+
         /*  Members */
 
         /*Phyisics*/
@@ -29,10 +37,15 @@ namespace DSI
             //Sprite
             sf::Sprite sp;
 
+            //Orientation
+            bool orientation;
+
         /*Enviroment*/
         private:
 
             World &world;//World to interact with
+
+            LaserModel &lm;//Laser to shoot
 
         /*Controls*/
         private:
@@ -46,7 +59,7 @@ namespace DSI
         public:
 
             //Complete constructor
-            Ship(const arrow::Vct &icenter, sf::Texture &itexture, World &iworld, IController *iptr_controller=nullptr);
+            Ship(const arrow::Vct &icenter, sf::Texture &itexture, bool iorientation, World &iworld, LaserModel &ilm, IController *iptr_controller=nullptr);
 
             //Destructor
             ~Ship();
