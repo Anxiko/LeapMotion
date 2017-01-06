@@ -104,6 +104,6 @@ namespace DSI
     //Check if a ship is a alive
     bool Ship::is_alive() const
     {
-        return true;
+        return actual_ener;
     }
 }
