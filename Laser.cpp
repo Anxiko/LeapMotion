@@ -71,12 +71,6 @@ namespace DSI
         return tth>=0 && tth<1;
     }
 
-    //Return the energy of this laser
-    EnergyT Laser::get_dmg() const
-    {
-        return lm.damage;
-    }
-
     /*Contact*/
 
     //Check for contact with another shape
@@ -125,27 +119,6 @@ namespace DSI
     void ArrayLaser::add_laser(const LaserModel &ilm, const arrow::Vct &iposition, arrow::Vct ispeed)
     {
         lasers.emplace_back(ilm,iposition,ispeed);
-    }
-
-    /*Hit*/
-
-    //Return damage made to a shape
-    EnergyT ArrayLaser::hit(const arrow::Shp &shp)
-    {
-        EnergyT rv=0;//Total damage
-
-        for (auto it=lasers.begin();it!=lasers.end();)
-        {
-            if (it->hit(shp))//Laser hits the shape
-            {
-                rv+=it->get_dmg();
-                it=lasers.erase(it);
-            }
-            else
-                ++it;
-        }
-
-        return rv;
     }
 
 }

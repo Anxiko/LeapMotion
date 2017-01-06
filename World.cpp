@@ -34,15 +34,8 @@ namespace DSI
 
     /*Laser*/
 
-    //Shoot the laser into the array
     void World::shoot(const LaserModel &ilm, const arrow::Vct &iposition, arrow::Vct ispeed)
     {
         shoot_to.add_laser(ilm,iposition,ispeed);
-    }
-
-    //Get hit from the lasers of the array
-    EnergyT World::hit(const arrow::Shp &shp)
-    {
-        return hit_from.hit(shp);
     }
 }

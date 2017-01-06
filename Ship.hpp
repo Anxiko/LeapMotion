@@ -6,7 +6,6 @@
 
 #include "IController.hpp"
 #include "World.hpp"
-#include "Laser.hpp"
 
 using namespace fdx;
 
@@ -46,15 +45,7 @@ namespace DSI
 
             World &world;//World to interact with
 
-            const LaserModel &lm;//Laser to shoot
-
-
-        /*Energy*/
-        private:
-
-            //Energy the ship has right now, and maximum energy
-            EnergyT actual_ener;
-            const EnergyT max_ener;
+            LaserModel &lm;//Laser to shoot
 
         /*Controls*/
         private:
@@ -68,7 +59,7 @@ namespace DSI
         public:
 
             //Complete constructor
-            Ship(const arrow::Vct &icenter, sf::Texture &itexture, bool iorientation, World &iworld, const LaserModel &ilm, EnergyT imax_ener, IController *iptr_controller=nullptr);
+            Ship(const arrow::Vct &icenter, sf::Texture &itexture, bool iorientation, World &iworld, LaserModel &ilm, IController *iptr_controller=nullptr);
 
             //Destructor
             ~Ship();
