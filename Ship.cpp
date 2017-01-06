@@ -12,8 +12,8 @@ namespace DSI
     /*Constructors*/
 
     //Complete constructor
-    Ship::Ship(const arrow::Vct &icenter, sf::Texture &itexture, bool iorientation, World &iworld, LaserModel &ilm, IController *iptr_controller)
-    :r(icenter,arrow::Vct(itexture.getSize().x,itexture.getSize().y)),sp(), orientation(iorientation), world(iworld), lm(ilm), ptr_controller(iptr_controller)
+    Ship::Ship(const arrow::Vct &icenter, sf::Texture &itexture, bool iorientation, World &iworld, const LaserModel &ilm, EnergyT imax_ener, IController *iptr_controller)
+    :r(icenter,arrow::Vct(itexture.getSize().x,itexture.getSize().y)),sp(), orientation(iorientation), world(iworld), lm(ilm), actual_ener(imax_ener), max_ener(imax_ener), ptr_controller(iptr_controller)
     {
         create_sprite(itexture);
     }
@@ -41,6 +41,9 @@ namespace DSI
         sp.setTexture(texture);
         sp.setOrigin(texture_sz.x*0.5,texture_sz.y*0.5);
         sp.setPosition(r.get_pos_center().x,r.get_pos_center().y);
+
+        if (orientation==ORIENTATION_DOWN)
+            sp.setScale(1,-1);
     }
 
     /*Update*/
@@ -71,5 +74,10 @@ namespace DSI
                 world.shoot(lm,position,arrow::Vct(0,orientation==ORIENTATION_UP?-1:+1));
             }
         }
+
+        //World updates
+        actual_ener-=world.hit(r);
+
+        std::cout << this <<": "<<actual_ener<<'/'<<max_ener<<std::endl;
     }
 }

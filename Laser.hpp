@@ -20,7 +20,7 @@ namespace DSI
         /* Members */
 
         /*Energy*/
-        private:
+        public:
 
             const EnergyT damage;
 
@@ -100,6 +100,9 @@ namespace DSI
             //Check if it'll hit a shape
             bool hit(const arrow::Shp &shp) const;
 
+            //Return the energy of this laser
+            EnergyT get_dmg() const;
+
         /*Contact*/
         public:
 
@@ -144,6 +147,12 @@ namespace DSI
 
             //Add a laser
             void add_laser(const LaserModel &ilm, const arrow::Vct &iposition, arrow::Vct ispeed);
+
+        /*Hit*/
+        public:
+
+            //Return damage made to a shape
+            EnergyT hit(const arrow::Shp &shp);
 
     };
 }

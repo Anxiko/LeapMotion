@@ -48,7 +48,11 @@ namespace DSI
         /*Laser*/
         public:
 
+            //Shoot a laser into the array
             void shoot(const LaserModel &ilm, const arrow::Vct &iposition, arrow::Vct ispeed);
+
+            //Get hit from the lasers of the array
+            EnergyT hit(const arrow::Shp &shp);
     };
 }
 

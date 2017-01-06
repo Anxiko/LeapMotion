@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _ICONTROLLER_HPP_
+#define _ICONTROLLER_HPP_
 
 namespace DSI
 {
@@ -59,3 +60,5 @@ namespace DSI
 			virtual bool ability() const = 0;
 	};
 }
+
+#endif // _ICONTROLLER_HPP_
