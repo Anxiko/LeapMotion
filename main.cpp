@@ -37,18 +37,20 @@ int main()
 	//Player laser model
 	constexpr int PLAYER_LASER_DMG = 25;
 	constexpr int PLAYER_LASER_SZ = 10;
+	constexpr int PLAYER_LASER_TICKS=20;
 	constexpr arrow::Vct::Mod PLAYER_LASER_SPEED = 5;
 	const sf::Color &PLAYER_LASER_COLOR = sf::Color::Magenta;
 
-	const DSI::LaserModel player_laser_model(PLAYER_LASER_DMG,PLAYER_LASER_SZ,PLAYER_LASER_SPEED,PLAYER_LASER_COLOR);
+	const DSI::LaserModel player_laser_model(PLAYER_LASER_DMG,PLAYER_LASER_TICKS,PLAYER_LASER_SZ,PLAYER_LASER_SPEED,PLAYER_LASER_COLOR);
 
 	//Enemy laser model
 	constexpr int ENEMY_LASER_DMG=10;
 	constexpr int ENEMY_LASER_SZ=7;
+	constexpr int ENEMY_LASER_TICKS=20;
 	constexpr arrow::Vct::Mod ENEMY_LASER_SPEED=2;
 	const sf::Color &ENEMY_LASER_COLOR = sf::Color::Red;
 
-	const DSI::LaserModel enemy_laser_model(ENEMY_LASER_DMG,ENEMY_LASER_SZ,ENEMY_LASER_SPEED,ENEMY_LASER_COLOR);
+	const DSI::LaserModel enemy_laser_model(ENEMY_LASER_DMG,ENEMY_LASER_TICKS,ENEMY_LASER_SZ,ENEMY_LASER_SPEED,ENEMY_LASER_COLOR);
 
 	//Player world
 	std::vector<arrow::Rct> walls;

@@ -22,7 +22,11 @@ namespace DSI
         /*Energy*/
         public:
 
+            //Damage that this laser provokes
             const EnergyT damage;
+
+            //Refresh rate of the laser
+            const int ticks;
 
         /*Physics*/
         public:
@@ -44,7 +48,7 @@ namespace DSI
         /*Constructors*/
         public:
 
-            LaserModel(EnergyT idamage, unsigned int isz, arrow::Vct::Mod ispeed, const sf::Color &icolor);
+            LaserModel(EnergyT idamage, int iticks, unsigned int isz, arrow::Vct::Mod ispeed, const sf::Color &icolor);
 
         /* Members */
 

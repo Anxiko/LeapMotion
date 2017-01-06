@@ -13,7 +13,7 @@ namespace DSI
 
     //Complete constructor
     Ship::Ship(const arrow::Vct &icenter, sf::Texture &itexture, bool iorientation, World &iworld, const LaserModel &ilm, EnergyT imax_ener, IController *iptr_controller)
-    :r(icenter,arrow::Vct(itexture.getSize().x,itexture.getSize().y)),sp(), orientation(iorientation), world(iworld), lm(ilm), actual_ener(imax_ener), max_ener(imax_ener), ptr_controller(iptr_controller)
+    :r(icenter,arrow::Vct(itexture.getSize().x,itexture.getSize().y)),sp(), orientation(iorientation), world(iworld), lm(ilm), actual_ener(imax_ener), max_ener(imax_ener),ticks(0),ptr_controller(iptr_controller)
     {
         create_sprite(itexture);
     }
@@ -51,6 +51,8 @@ namespace DSI
     //Update the ship's status (process info from controller)
     void Ship::update()
     {
+        if (ticks)
+            --ticks;
         //Controller updates
         if (ptr_controller)
         {
@@ -65,13 +67,14 @@ namespace DSI
             sp.setPosition(r.get_pos_center().x,r.get_pos_center().y);
 
             //Shoot
-            if (ptr_controller->fire())
+            if (ptr_controller->fire()&&(!ticks))
             {
                 arrow::Vct position=r.get_pos_corner()+arrow::Vct(r.get_diagonal().x/2,0);
                 if (orientation==ORIENTATION_DOWN)
                     position+=arrow::Vct(0,r.get_diagonal().y);
 
                 world.shoot(lm,position,arrow::Vct(0,orientation==ORIENTATION_UP?-1:+1));
+                ticks=lm.ticks;
             }
         }
 

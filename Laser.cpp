@@ -10,8 +10,8 @@ namespace DSI
 
     /*Constructors*/
 
-    LaserModel::LaserModel(EnergyT idamage, unsigned int isz, arrow::Vct::Mod ispeed, const sf::Color &icolor)
-    :damage(idamage),sz(isz),speed(ispeed),circle(isz)
+    LaserModel::LaserModel(EnergyT idamage, int iticks, unsigned int isz, arrow::Vct::Mod ispeed, const sf::Color &icolor)
+    :damage(idamage),ticks(iticks),sz(isz),speed(ispeed),circle(isz)
     {
         circle.setFillColor(icolor);
         circle.setOrigin(isz,isz);

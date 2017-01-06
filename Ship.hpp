@@ -56,6 +56,9 @@ namespace DSI
             EnergyT actual_ener;
             const EnergyT max_ener;
 
+            //Refresh of the laser
+            int ticks;
+
         /*Controls*/
         private:
 
