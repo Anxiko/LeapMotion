@@ -82,6 +82,24 @@ namespace DSI
 
             //Update the ship's status (process info from controller)
             void update();
+
+        /*Controller*/
+        public:
+
+            //Replace this ship's current controller by a new one
+            void set_controller(IController *iptr_controller);
+
+        /*Contact*/
+        public:
+
+            //Check for contact with a shape
+            bool contact(const arrow::Shp &shp) const;
+
+        /*Energy*/
+        public:
+
+            //Check if a ship is a alive
+            bool is_alive() const;
     };
 }
 

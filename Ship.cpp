@@ -72,4 +72,30 @@ namespace DSI
             }
         }
     }
+
+    /*Controller*/
+
+    //Replace this ship's current controller by a new one
+    void Ship::set_controller(IController *iptr_controller)
+    {
+        delete ptr_controller;
+
+        ptr_controller=iptr_controller;
+    }
+
+    /*Contact*/
+
+    //Check for contact with a shape
+    bool Ship::contact(const arrow::Shp &shp) const
+    {
+        return r.contact(shp);
+    }
+
+    /*Energy*/
+
+    //Check if a ship is a alive
+    bool Ship::is_alive() const
+    {
+        return true;
+    }
 }
