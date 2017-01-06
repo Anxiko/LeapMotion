@@ -104,6 +104,15 @@ namespace DSI
             //Check for contact with a shape
             bool contact(const arrow::Shp &shp) const;
 
+        /*Position*/
+        public:
+
+            //Get position of tbe center
+            arrow::Vct get_position() const;
+
+            //Get the orientation of the ship
+            bool get_orientation() const;
+
         /*Energy*/
         public:
 

@@ -99,6 +99,20 @@ namespace DSI
         return r.contact(shp);
     }
 
+    /*Position*/
+
+    //Get position
+    arrow::Vct Ship::get_position() const
+    {
+        return r.get_pos_center();
+    }
+
+    //Get the orientation of the ship
+    bool Ship::get_orientation() const
+    {
+        return orientation;
+    }
+
     /*Energy*/
 
     //Check if a ship is a alive
