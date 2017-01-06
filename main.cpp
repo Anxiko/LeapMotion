@@ -36,7 +36,7 @@ int main()
 
 	//Player laser model
 	constexpr int PLAYER_LASER_DMG = 25;
-	constexpr int PLAYER_LASER_SZ = 10;
+	constexpr int PLAYER_LASER_SZ = 7;
 	constexpr int PLAYER_LASER_TICKS=20;
 	constexpr arrow::Vct::Mod PLAYER_LASER_SPEED = 5;
 	const sf::Color &PLAYER_LASER_COLOR = sf::Color::Magenta;
@@ -81,6 +81,9 @@ int main()
     constexpr DSI::EnergyT PLAYER_ENER=100;
     DSI::Ship player_ship(arrow::Vct(WINDOW_WIDTH/2,WINDOW_HEIGHT/2),player_texture,DSI::Ship::ORIENTATION_UP,player_world, player_laser_model,PLAYER_ENER,new DSI::ControllerMouse(WINDOW_WIDTH/2,WINDOW_HEIGHT/2,window));
 
+    int player_kill_streak=0;//Number of ships killed by the player before getting hit a single time
+    bool player_ability_ready=false;//Player has the ability ready to use
+    constexpr int PLAYER_KILLSTREAK_ABILITY=2;//Killstreak ready to unlock the ability
 
     //Enemy ships
     //DSI::Ship enemy_ship(arrow::Vct(WINDOW_WIDTH/2,40),player_texture,DSI::Ship::ORIENTATION_DOWN,enemy_world,player_laser_model,PLAYER_ENER);
@@ -111,8 +114,31 @@ int main()
 
 		player_array.update(WINDOW_RCT);
 		enemy_array.update(WINDOW_RCT);
-		player_ship.update();
-		enemy_ships.update();
+		if (player_ship.update())//If the player's been hit, reset the killsteak
+        {
+            player_kill_streak=0;
+        }
+		int kills=enemy_ships.update();//Update the current killstreak
+		if (kills)
+        {
+            player_kill_streak+=kills;
+            std::cout<<"KS: "<<player_kill_streak<<std::endl;
+        }
+
+		if (player_kill_streak>=PLAYER_KILLSTREAK_ABILITY)//Ability unlocked
+        {
+            player_ability_ready=true;
+        }
+
+        //Use the ability
+        if (player_ship.ability()&&player_ability_ready)
+        {
+            player_ability_ready=false;
+            player_kill_streak=0;
+
+            std::cout<<"Ability used!"<<std::endl;
+            std::cout<<"Enemies purged: "<<enemy_ships.purge()<<std::endl;
+        }
 
 		window.clear(sf::Color::Black);
 		window.draw(enemy_ships);

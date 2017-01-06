@@ -92,8 +92,11 @@ namespace DSI
         /*Update*/
         public:
 
-            //Update the ship's status (process info from controller)
-            void update();
+            //Update the ship's status (process info from controller). Return the number of damage received
+            int update();
+
+            //Check if the ability button has been pressed
+            bool ability() const;
 
         /*Controller*/
         public:

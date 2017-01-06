@@ -48,8 +48,8 @@ namespace DSI
 
     /*Update*/
 
-    //Update the ship's status (process info from controller)
-    void Ship::update()
+    //Update the ship's status (process info from controller). Return the number of damage received
+    int Ship::update()
     {
         if (ticks)
             --ticks;
@@ -78,8 +78,19 @@ namespace DSI
             }
         }
 
-        //World updates
-        actual_ener-=world.hit(r);
+        //Damage done to the ship
+        int dmg=world.hit(r);
+
+        //Update the ship's energy
+        actual_ener-=dmg;
+
+        return dmg;
+    }
+
+    //Check if the ability button has been pressed
+    bool Ship::ability() const
+    {
+        return ptr_controller&&ptr_controller->ability();
     }
 
     /*Controller*/

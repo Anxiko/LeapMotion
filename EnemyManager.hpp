@@ -159,14 +159,20 @@ namespace DSI
         /*Ships*/
         public:
 
-            //Update all ships, remove those that are killed/out of screen
-            void update();
+            //Update all ships, remove those that are killed/out of screen. Return the number of ships that have been killed
+            int update();
 
         /*Drawing*/
         public:
 
             //Draw the ship
             void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+        /*Ability*/
+        public:
+
+            //Kill all ships. Return number of ships killed
+            int purge();
     };
 }
 

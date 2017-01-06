@@ -102,14 +102,18 @@ namespace DSI
     /*Ships*/
 
     //Update all ships, remove those that are killed/out of screen
-    void EnemyManager::update()
+    int EnemyManager::update()
     {
+        int victims=0;//Ships that die in this update
+
         for (auto it=ships.begin();it!=ships.end();)
         {
             if (it->is_alive()&&it->contact(screen))//Ship is alive and inside the screen
                 (it++)->update();//Update it
             else//If not active
             {
+                if (!(it->is_alive()))//Kill count
+                    ++victims;
                 it=ships.erase(it);//Delete it
                 --number_ships;
             }
@@ -117,6 +121,9 @@ namespace DSI
 
         //Add ships back
         add_ships();
+
+        //Return the number of ships that died
+        return victims;
     }
 
     /*Drawing*/
@@ -126,5 +133,16 @@ namespace DSI
     {
         for (const auto &ship : ships)
             target.draw(ship,states);
+    }
+
+    /*Ability*/
+
+    //Kill all ships. Return number of ships killed
+    int EnemyManager::purge()
+    {
+        int rv=number_ships;
+        ships.clear();
+        number_ships=0;
+        return rv;
     }
 }
