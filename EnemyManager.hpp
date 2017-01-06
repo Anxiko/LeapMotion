@@ -80,7 +80,7 @@ namespace DSI
 			bool ability() const;
     };
 
-    class EnemyManager
+    class EnemyManager : public sf::Drawable
     {
         /* Config */
 
@@ -143,7 +143,7 @@ namespace DSI
         public:
 
             //Complete constructor
-            EnemyManager(int itarget_ships, const arrow::Rct &iscreen, sf::Texture &ilinear_texture, LaserModel &ilinear_lm, EnergyT ilinear_energy,World &iworld);
+            EnemyManager(int itarget_ships, const arrow::Rct &iscreen, sf::Texture &ilinear_texture, const LaserModel &ilinear_lm, EnergyT ilinear_energy,World &iworld);
 
         /* Methods */
 

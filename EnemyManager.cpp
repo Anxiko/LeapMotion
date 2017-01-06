@@ -70,7 +70,7 @@ namespace DSI
     /*Constructor*/
 
     //Complete constructor
-    EnemyManager::EnemyManager(int itarget_ships, const arrow::Rct &iscreen, sf::Texture &ilinear_texture, LaserModel &ilinear_lm, EnergyT ilinear_energy, World &iworld)
+    EnemyManager::EnemyManager(int itarget_ships, const arrow::Rct &iscreen, sf::Texture &ilinear_texture, const LaserModel &ilinear_lm, EnergyT ilinear_energy, World &iworld)
     :number_ships(0),target_ships(itarget_ships),screen(iscreen),linear_texture(ilinear_texture),linear_lm(ilinear_lm),linear_energy(ilinear_energy),orientation(DEF_ORIENTATION),world(iworld)
     {}
 
@@ -85,11 +85,10 @@ namespace DSI
         int x=dt(re);
         int y=screen.get_pos_corner().y-linear_texture.getSize().y+1;//Spawn just at the border, but inside the screen
 
-        Ship linear_ship(arrow::Vct(x,y),linear_texture,orientation,world,linear_lm,linear_energy);
-        IController *ptr_controller=new EnemyLinearController(screen.get_diagonal().x,screen.get_diagonal().y,linear_ship);
-        linear_ship.set_controller(ptr_controller);
+        ships.emplace_back(arrow::Vct(x,y),linear_texture,orientation,world,linear_lm,linear_energy);
+        IController *ptr_controller=new EnemyLinearController(screen.get_diagonal().x,screen.get_diagonal().y,ships.back());
+        ships.back().set_controller(ptr_controller);
 
-        ships.push_back(linear_ship);
         ++number_ships;
     }
 
