@@ -77,8 +77,6 @@ namespace DSI
 
         //World updates
         actual_ener-=world.hit(r);
-
-        std::cout << this <<": "<<actual_ener<<'/'<<max_ener<<std::endl;
     }
 
     /*Controller*/

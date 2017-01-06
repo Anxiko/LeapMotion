@@ -22,7 +22,7 @@ namespace DSI
         private:
 
             //Default speed of the ship
-            static constexpr int DEF_SPEED = 5;
+            static constexpr int DEF_SPEED = 2;
 
             //Default probability of firing
             static constexpr int DEF_PROB_FIRING = 90;
