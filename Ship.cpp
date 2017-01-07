@@ -132,4 +132,16 @@ namespace DSI
     {
         return actual_ener>0;
     }
+
+    //Get the energy of a ship
+    EnergyT Ship::get_energy() const
+    {
+        return std::max(0,actual_ener);
+    }
+
+    //Recharge energy
+    void Ship::recharge_energy(EnergyT recharge)
+    {
+        actual_ener=std::min(max_ener,actual_ener+recharge);
+    }
 }

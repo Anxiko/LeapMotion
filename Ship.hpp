@@ -124,6 +124,12 @@ namespace DSI
 
             //Check if a ship is a alive
             bool is_alive() const;
+
+            //Get the energy of a ship
+            EnergyT get_energy() const;
+
+            //Recharge energy
+            void recharge_energy(EnergyT recharge);
     };
 }
 

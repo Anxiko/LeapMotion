@@ -43,4 +43,40 @@ namespace DSI
         sp.setPosition(pos);
         sp2.setPosition(pos);
     }
+
+    /*
+        Value_HUD
+    */
+
+    /* Constructors, copy control */
+
+    /*Constructors*/
+
+    //Complete constructor
+    Value_HUD::Value_HUD(const sf::Font &ift, int ix, int iy, const std::string &iprefix,int ival)
+    :ft(ift),val(ival),prefix(iprefix),x(ix),y(iy)
+    {}
+
+    /* Methods */
+
+    /*Update*/
+
+    //Set the HP value
+    void Value_HUD::update(int ival)
+    {
+        val=ival;
+    }
+
+    /*Drawing*/
+
+    //Draw the HUD
+    void Value_HUD::draw(sf::RenderTarget& target, sf::RenderStates states) const
+    {
+        std::stringstream ss;
+        ss<<prefix<<val;
+
+        sf::Text text(ss.str(),ft);
+        text.setPosition(x,y);
+        target.draw(text,states);
+    }
 }

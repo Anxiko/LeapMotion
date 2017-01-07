@@ -3,6 +3,8 @@
 
 #include "SFML/Graphics.hpp"
 
+#include <sstream>
+
 namespace DSI
 {
     class Background : public sf::Drawable
@@ -45,6 +47,63 @@ namespace DSI
 
             //Move the sprites
             void update();
+    };
+
+    class Value_HUD : public sf::Drawable
+    {
+        /*  Config */
+
+        /*Val*/
+        private:
+
+            static constexpr int DEF_VAL=0;
+
+        /* Members */
+
+        /*Text*/
+        private:
+
+            //Font
+            const sf::Font &ft;
+
+        /*Value*/
+        private:
+
+            //HP value
+            int val;
+
+        /*Prefix*/
+        private:
+
+            const std::string prefix;
+
+        /*Position*/
+        private:
+
+            int x,y;
+
+        /* Constructors, copy control */
+
+        /*Constructors*/
+        public:
+
+            //Complete constructor
+            Value_HUD(const sf::Font &ift, int ix, int iy, const std::string &iprefix,int ival=DEF_VAL);
+
+        /* Methods */
+
+        /*Update*/
+        public:
+
+            //Set the value
+            void update(int ival);
+
+        /*Drawing*/
+        public:
+
+            //Draw the HUD
+            void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
     };
 }
 
