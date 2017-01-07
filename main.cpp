@@ -173,7 +173,7 @@ int play_game (const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow
     player_points=0;//Points the player has obtained
     int player_kill_streak=0;//Number of ships killed by the player before getting hit a single time
     bool player_ability_ready=false;//Player has the ability ready to use
-    const int PLAYER_KILLSTREAK_ABILITY=2;//Killstreak ready to unlock the ability
+    const int PLAYER_KILLSTREAK_ABILITY=5;//Killstreak ready to unlock the ability
     const int PLAYER_RECHARGE_ENER_PER_KILL=10;//Energy recharged per kill
     const int PLAYER_POINTS_PER_KILL=10;//Points gained per kill
 
