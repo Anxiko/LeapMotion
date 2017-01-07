@@ -1,5 +1,5 @@
 #include "IController.hpp"
-//#include "ControllerLeapMotion.hpp"
+#include "ControllerLeapMotion.hpp"
 #include "ControllerMouse.hpp"
 
 #include "World.hpp"
@@ -15,8 +15,12 @@
 
 using namespace fdx;
 
-int welcome_screen(const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow &window, int const * player_score=nullptr);
-int play_game (const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow &window, int &player_points);
+//Type of controller
+constexpr bool CONTROLLER_MOUSE = false;
+constexpr bool CONTROLLER_LEAP = true;
+
+int welcome_screen(const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow &window, bool &controller,  int const * player_score=nullptr);
+int play_game (const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow &window, bool controller, int &player_points);
 
 int main()
 {
@@ -33,19 +37,22 @@ int main()
 	//Player score
 	int player_score=0;
 
+	//Player controller
+	bool player_controller = CONTROLLER_MOUSE;
+
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME, sf::Style::Close);
 	window.setFramerateLimit(FPS);
 
-	if (welcome_screen(WINDOW_WIDTH,WINDOW_HEIGHT,window))
+	if (welcome_screen(WINDOW_WIDTH,WINDOW_HEIGHT,window,player_controller))
         return 1;
     while(window.isOpen())
     {
-        if (play_game(WINDOW_WIDTH,WINDOW_HEIGHT,window,player_score)||welcome_screen(WINDOW_WIDTH,WINDOW_HEIGHT,window,&player_score))
+        if (play_game(WINDOW_WIDTH,WINDOW_HEIGHT,window,player_controller, player_score)||welcome_screen(WINDOW_WIDTH,WINDOW_HEIGHT,window,player_controller,&player_score))
             return 1;
     }
 }
 
-int play_game (const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow &window, int &player_points)
+int play_game (const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow &window, bool controller, int &player_points)
 {
     //Window size
     const arrow::Rct WINDOW_RCT(arrow::Vct(0,0),arrow::Vct(WINDOW_WIDTH,WINDOW_HEIGHT));
@@ -161,7 +168,7 @@ int play_game (const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow
 
     //Player ship
     const DSI::EnergyT PLAYER_ENER=100;
-    DSI::Ship player_ship(arrow::Vct(WINDOW_WIDTH/2,WINDOW_HEIGHT/2),player_texture,DSI::Ship::ORIENTATION_UP,player_world, player_laser_model,PLAYER_ENER,new DSI::ControllerMouse(WINDOW_WIDTH/2,WINDOW_HEIGHT/2,window));
+    DSI::Ship player_ship(arrow::Vct(WINDOW_WIDTH/2,WINDOW_HEIGHT/2),player_texture,DSI::Ship::ORIENTATION_UP,player_world, player_laser_model,PLAYER_ENER,controller==CONTROLLER_MOUSE?(DSI::IController *)new DSI::ControllerMouse(WINDOW_WIDTH/2,WINDOW_HEIGHT/2,window):(DSI::IController *)new DSI::ControllerLeapMotion(WINDOW_WIDTH,WINDOW_HEIGHT));
 
     player_points=0;//Points the player has obtained
     int player_kill_streak=0;//Number of ships killed by the player before getting hit a single time
@@ -260,7 +267,7 @@ int play_game (const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow
 	return 0;
 }
 
-int welcome_screen(const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow &window, int const * player_score)
+int welcome_screen(const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWindow &window, bool &controller, int const * player_score)
 {
     //Text to print
     //Font
@@ -306,6 +313,15 @@ int welcome_screen(const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWi
 
     score_text.setPosition(WINDOW_WIDTH/2,SCORE_TEXT_Y);
 
+	//Controller text
+	const int CONTROLLER_TEXT_Y = WINDOW_HEIGHT - 100;
+
+	sf::Text controller_text(std::string("Using ") + (controller == CONTROLLER_MOUSE ? std::string("mouse") : std::string("Leap Motion")) + std::string(" controller, press Space to switch"), ft,10);
+	textRect = controller_text.getLocalBounds();
+	controller_text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+
+	controller_text.setPosition(WINDOW_WIDTH / 2, CONTROLLER_TEXT_Y);
+
     while (window.isOpen())
     {
         sf::Event e;
@@ -321,8 +337,15 @@ int welcome_screen(const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWi
 
                 case sf::Event::KeyPressed:
                 {
-                    if (e.key.code==sf::Keyboard::Return)
-                        return 0;
+					if (e.key.code == sf::Keyboard::Return)
+						return 0;
+					else if (e.key.code == sf::Keyboard::Space)
+					{
+						controller = !controller;
+						controller_text.setString(std::string("Using ") + (controller == CONTROLLER_MOUSE ? std::string("mouse") : std::string("Leap Motion")) + std::string(" controller, press Space to switch"));
+						textRect = controller_text.getLocalBounds();
+						controller_text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+					}
                 }
 
                 default:
@@ -333,6 +356,7 @@ int welcome_screen(const int WINDOW_WIDTH, const int WINDOW_HEIGHT, sf::RenderWi
         window.clear(sf::Color::Black);
         window.draw(title_text);
         window.draw(enter_text);
+		window.draw(controller_text);
         if (player_score)
             window.draw(score_text);
         window.display();
