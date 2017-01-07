@@ -6,6 +6,7 @@
 #include "Laser.hpp"
 #include "Ship.hpp"
 #include "EnemyManager.hpp"
+#include "Effects.hpp"
 
 #include "FDX_Geo/FDX_Geo.hpp"
 #include "SFML/Graphics.hpp"
@@ -29,6 +30,17 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), WINDOW_NAME, sf::Style::Close);
 	window.setFramerateLimit(FPS);
+
+    //Background
+	sf::Texture background_texture;
+	if (!background_texture.loadFromFile("media/background.jpg"))
+    {
+        std::cerr<<"Error loading the background's texture"<<std::endl;
+        return 1;
+    }
+
+    constexpr int WINDOW_BACKGROUND_SPEED=1;
+    DSI::Background background(background_texture,WINDOW_WIDTH,WINDOW_HEIGHT,WINDOW_BACKGROUND_SPEED);
 
 	//Array Laser
 	DSI::ArrayLaser player_array;//Lasers from the player
@@ -112,6 +124,8 @@ int main()
 			}
 		}
 
+		background.update();
+
 		player_array.update(WINDOW_RCT);
 		enemy_array.update(WINDOW_RCT);
 		if (player_ship.update())//If the player's been hit, reset the killsteak
@@ -141,6 +155,7 @@ int main()
         }
 
 		window.clear(sf::Color::Black);
+		window.draw(background);
 		window.draw(enemy_ships);
 		window.draw(player_ship);
 		window.draw(enemy_array);
